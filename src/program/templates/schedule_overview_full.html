@@ -1,0 +1,68 @@
+{% load static from staticfiles %}
+{% load bootstrap3 %}
+{% load menubutton %}
+{% static "" as baseurl %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>{% block title %}BornHack Schedule{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- FontAwesome CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/bornhack.css' %}" rel="stylesheet">
+
+    {% bootstrap_javascript jquery=1 %}
+
+    <!-- favicon.ico stuff -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+    <noscript>
+      <meta http-equiv="refresh" content="0; url={% url "noscript_schedule_index" camp_slug=camp.slug %}" />
+    </noscript>
+  </head>
+
+  <body>
+
+    <noscript>
+        <div class="row">
+            <p>
+            No javascript? Don't worry, we have a HTML only version of the schedule! Redirecting you there now.
+            </p>
+            <p>
+            <a href="{% url "noscript_schedule_index" camp_slug=camp.slug %}">
+                Click here if you are not redirected.
+            </a>
+            </p>
+        </div>
+    </noscript>
+
+    <div id="schedule"></div>
+
+    <script src="{% static "js/elm_based_schedule.js" %}"></script>
+
+    <script>
+    var elm_app = Elm.Main.fullscreen(
+        { 'schedule_timeslot_length_minutes': Number('{{ schedule_timeslot_length_minutes }}')
+        , 'schedule_midnight_offset_hours': Number('{{ schedule_midnight_offset_hours }}')
+        , 'ics_button_href': "{% url 'ics_view' camp_slug=camp.slug %}"
+        , 'camp_slug': "{{ camp.slug }}"
+        , 'websocket_server': "ws://" + window.location.host + "/schedule/"
+        }
+    );
+    </script>
+
+  </body>

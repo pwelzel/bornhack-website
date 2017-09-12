@@ -138,6 +138,11 @@ urlpatterns = [
                         name='schedule_index'
                     ),
                     url(
+                        r'^full$',
+                        FullscreenScheduleView.as_view(),
+                        name='schedule_index'
+                    ),
+                    url(
                         r'^noscript/$',
                         NoScriptScheduleView.as_view(),
                         name='noscript_schedule_index'

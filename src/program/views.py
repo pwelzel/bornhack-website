@@ -302,6 +302,14 @@ class ScheduleView(CampViewMixin, TemplateView):
         context['schedule_midnight_offset_hours'] = settings.SCHEDULE_MIDNIGHT_OFFSET_HOURS;
         return context
 
+class FullscreenScheduleView(CampViewMixin, TemplateView):
+    template_name = 'schedule_overview_full.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['schedule_midnight_offset_hours'] = settings.SCHEDULE_MIDNIGHT_OFFSET_HOURS;
+        return context
+
 
 class CallForSpeakersView(CampViewMixin, TemplateView):
     def get_template_names(self):
